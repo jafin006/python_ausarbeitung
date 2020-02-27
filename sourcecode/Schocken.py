@@ -7,7 +7,15 @@ class SchockenGame:
 
     def __init__(self):
         print("Enter number of Players: ")
-        self.__number_of_players = int(input())
+
+        self.__number_of_players = 0
+        while self.__number_of_players == 0:
+            no_players = input()
+            if not no_players.isnumeric() or int(no_players) <= 0:
+                print("Not a valid Number, try again...")
+            else:
+                self.__number_of_players = int(no_players)
+
         self.__list_of_players = []
         for i in range(1, self.__number_of_players + 1):
             print(f"Enter name for player {i}: ")
@@ -43,7 +51,7 @@ class SchockenGame:
             looser = self.__list_of_players[0]  # first player is the looser cause of the rotating
             print(f"{looser.name} lost the game")
         # reset after game
-
+        self.__reset_after_game()
 
     def __play_half(self, is_final: bool):
         # play phase 1
@@ -176,6 +184,16 @@ class SchockenGame:
         for p in self.__list_of_players:
             p.in_game = True
             p.cups = 0
+
+    def __reset_after_game(self):
+        # reset cups middle
+        self.__currently_cups_middle = self.__number_of_cups
+        # reset cups of players
+        for p in self.__list_of_players:
+            p.in_game = True
+            p.cups = 0
+            p.half_lost = False
+            p.current_throw = None
 
 
 """
